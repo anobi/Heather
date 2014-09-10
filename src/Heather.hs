@@ -22,15 +22,15 @@ data Weather = Weather {
 
 instance FromJSON Weather where
     parseJSON (Object v) = Weather <$> 
-        ((head <$> v .: "weather") >>= (.: "main"))         <*>
-        ((head <$> v .: "weather") >>= (.: "description"))  <*>
-        ((v .: "main") >>= (.: "temp"))                     <*>
-        ((v .: "main") >>= (.: "pressure"))                 <*>
-        ((v .: "main") >>= (.: "humidity"))                 <*>
-        ((v .: "main") >>= (.: "temp_min"))                 <*>
-        ((v .: "main") >>= (.: "temp_max"))                 <*>
-        ((v .: "wind") >>= (.: "speed"))                    <*>
-        ((v .: "wind") >>= (.: "deg"))
+        ((head <$> v .: "weather")  >>= (.: "main"))        <*>
+        ((head <$> v .: "weather")  >>= (.: "description")) <*>
+        ((v .: "main")              >>= (.: "temp"))        <*>
+        ((v .: "main")              >>= (.: "pressure"))    <*>
+        ((v .: "main")              >>= (.: "humidity"))    <*>
+        ((v .: "main")              >>= (.: "temp_min"))    <*>
+        ((v .: "main")              >>= (.: "temp_max"))    <*>
+        ((v .: "wind")              >>= (.: "speed"))       <*>
+        ((v .: "wind")              >>= (.: "deg"))
     parseJSON _ = mzero
 
 getWeather :: String -> IO (Maybe Weather)
