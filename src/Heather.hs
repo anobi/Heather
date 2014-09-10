@@ -9,8 +9,8 @@ import Control.Monad
 import Network.HTTP.Conduit
 
 data Weather = Weather { 
-    weather         :: !Text,
-    description     :: !Text,
+    weather         :: String,
+    description     :: String,
     temp            :: Double,
     pressure        :: Double,
     humidity        :: Double,
@@ -35,5 +35,5 @@ instance FromJSON Weather where
 
 getWeather :: String -> IO (Maybe Weather)
 getWeather s = do
-    d <- simpleHttp $ "http://api.openweathermap.org/data/2.5/weather?q=" ++ s
+    d <- simpleHttp $ "http://api.openweathermap.org/data/2.5/weather?units=metric&lang=fi&q=" ++ s
     return $ decode d 
