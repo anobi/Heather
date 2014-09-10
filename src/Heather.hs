@@ -1,15 +1,11 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
+--{-# LANGUAGE OverloadedStrings #-}
 
 module Heather where
 
 import Data.Text (Text)
-import qualified Data.ByteString.Lazy as BS
-import qualified Data.ByteString.Lazy.Char8 as C
 import Data.Aeson as AS
 import Control.Applicative
 import Control.Monad
-import GHC.Generics
 import Network.HTTP.Conduit
 
 data Weather = Weather { 
@@ -22,7 +18,7 @@ data Weather = Weather {
     maxTemp         :: Double,
     wSpeed          :: Double,
     wDeg            :: Double
-    } deriving (Show, Generic)
+    } deriving (Show)
 
 instance FromJSON Weather where
     parseJSON (Object v) = Weather <$> 
@@ -37,13 +33,7 @@ instance FromJSON Weather where
         ((v .: "wind") >>= (.: "deg"))
     parseJSON _ = mzero
 
-decodeWeather :: C.ByteString -> Maybe Weather
-decodeWeather response = decode response
-
 getWeather :: String -> IO (Maybe Weather)
 getWeather s = do
     d <- simpleHttp $ "http://api.openweathermap.org/data/2.5/weather?q=" ++ s
-    print d
-    print $ decodeWeather d
-
-    return $ decodeWeather d 
+    return $ decode d 
