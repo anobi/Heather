@@ -34,6 +34,4 @@ instance FromJSON Weather where
     parseJSON _ = mzero
 
 getWeather :: String -> IO (Maybe Weather)
-getWeather s = do
-    d <- simpleHttp $ "http://api.openweathermap.org/data/2.5/weather?units=metric&lang=fi&q=" ++ s
-    return $ decode d 
+getWeather s = fmap decode $ simpleHttp $ "http://api.openweathermap.org/data/2.5/weather?units=metric&lang=fi&q=" ++ s
